@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { auth } from 'firebase';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -9,25 +8,25 @@ import { AngularFireAuth } from 'angularfire2/auth';
 })
 export class AppComponent implements OnInit {
   title = 'app';
-  user = {};
+  user;
 
-  constructor(public afAuth: AngularFireAuth) {
+  constructor(public authService: AuthService) {
   }
 
 
   ngOnInit(): void {
-    this.afAuth.user.subscribe(u => {
+    this.authService.user.subscribe(u => {
       this.user = u;
       console.log('user', u);
     });
   }
 
   login() {
-    this.afAuth.auth.signInWithPopup(new auth.GithubAuthProvider());
+    this.authService.login();
   }
 
   logout() {
-    this.afAuth.auth.signOut();
+    this.authService.logout();
   }
 
 }

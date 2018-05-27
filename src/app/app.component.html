@@ -17,8 +17,9 @@
     <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
   </li>
 
-  <div *ngIf="afAuth.user | async as u; else showLogin">
+  <div *ngIf="authService.user | async as u; else showLogin">
     <h1>Hello {{ u.displayName }}!</h1>
+    <h2 *ngIf="authService.idToken | async as token">{{token}}</h2>
     <button (click)="logout()">Logout</button>
   </div>
   <ng-template #showLogin>
