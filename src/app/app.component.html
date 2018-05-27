@@ -16,5 +16,14 @@
   <li>
     <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
   </li>
+
+  <div *ngIf="afAuth.user | async as u; else showLogin">
+    <h1>Hello {{ u.displayName }}!</h1>
+    <button (click)="logout()">Logout</button>
+  </div>
+  <ng-template #showLogin>
+    <p>Please login.</p>
+    <button (click)="login()">Login with Github</button>
+  </ng-template>
 </ul>
 
