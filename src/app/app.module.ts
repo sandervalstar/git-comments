@@ -8,6 +8,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AuthService } from './auth/auth.service';
 import { HttpClientModule } from '@angular/common/http';
 import { GitService } from './git/git.service';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { GitService } from './git/git.service';
     BrowserModule,
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AngularFirestoreModule,
   ],
   providers: [AuthService, GitService],
   bootstrap: [AppComponent]
