@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth/auth.service';
+import { GitService } from './git/git.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ export class AppComponent implements OnInit {
   title = 'app';
   user;
 
-  constructor(public authService: AuthService) {
+  constructor(public authService: AuthService, public gitService: GitService) {
   }
 
 
@@ -27,6 +28,13 @@ export class AppComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+  }
+
+  getIssues() {
+    const s = this.gitService.getIssues('github-tools', 'github').subscribe(i => {
+      console.log('gh', i);
+      s.unsubscribe();
+    });
   }
 
 }

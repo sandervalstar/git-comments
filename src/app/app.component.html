@@ -19,12 +19,16 @@
 
   <div *ngIf="authService.user | async as u; else showLogin">
     <h1>Hello {{ u.displayName }}!</h1>
-    <h2 *ngIf="authService.idToken | async as token">{{token}}</h2>
+    <h2 *ngIf="authService.accessToken | async as token">{{token}}</h2>
     <button (click)="logout()">Logout</button>
   </div>
   <ng-template #showLogin>
     <p>Please login.</p>
     <button (click)="login()">Login with Github</button>
   </ng-template>
+
+  <div>
+    <button (click)="getIssues()">get issues</button>
+  </div>
 </ul>
 
