@@ -7,8 +7,18 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <script type="text/javascript">
+    function resizeIframe(iframe) {
+      iframe.height = iframe.contentWindow.document.body.scrollHeight + "px";
+//      init();
+//      iframeClick();
+    }
+  </script>
+
 </head>
 <body>
   <app-root></app-root>
+  <iframe id="training" onload="resizeIframe(this)" scrolling="no" name="document" src="assets/test/spring-basics/spring_basics.html">...</iframe>
 </body>
 </html>

@@ -54,7 +54,7 @@ export class AuthService {
       .catch(e => console.log('error storing access token'));
   }
 
-  private getStoredAccessToken() {
-    return this.accessTokensCollection.doc(this.userSubject.value.uid).valueChanges();
+  private getStoredAccessToken(): Observable<{token: any}> {
+    return this.accessTokensCollection.doc(this.userSubject.value.uid).valueChanges() as Observable<{token: any}>;
   }
 }
