@@ -18,7 +18,7 @@ export class AuthService {
 
   private accessTokensCollection: AngularFirestoreCollection<{ token: string }>;
 
-  constructor(public afAuth: AngularFireAuth, private afStore: AngularFirestore) {
+  constructor(private afAuth: AngularFireAuth, private afStore: AngularFirestore) {
     this.accessTokensCollection = this.afStore.collection('access-tokens');
 
     this.userSubject = new BehaviorSubject(null);

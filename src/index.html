@@ -9,6 +9,8 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
   <script type="text/javascript">
+
+
     function resizeIframe(iframe) {
       iframe.height = iframe.contentWindow.document.body.scrollHeight + "px";
 //      init();
@@ -18,7 +20,7 @@
 
 </head>
 <body>
-  <app-root></app-root>
+  <app-root data-project='{"owner": "sandervalstar", "repo": "java-spring-basics"}'></app-root>
   <iframe id="training" onload="resizeIframe(this)" scrolling="no" name="document" src="assets/test/spring-basics/spring_basics.html">...</iframe>
 </body>
 </html>

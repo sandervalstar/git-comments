@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { AuthService } from './auth/auth.service';
 import { GitService } from './git/git.service';
+import { Project } from './git/project';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +9,14 @@ import { GitService } from './git/git.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  project: Project;
+
   title = 'app';
   user;
 
-  constructor(public authService: AuthService, public gitService: GitService) {
+  constructor(private elementRef: ElementRef, private authService: AuthService, private gitService: GitService) {
+    this.project = Project.createFromJson(this.elementRef.nativeElement.getAttribute('data-project'));
+    console.log('project', this.project);
   }
 
 
@@ -31,7 +36,7 @@ export class AppComponent implements OnInit {
   }
 
   getIssues() {
-    const s = this.gitService.getIssues('github-tools', 'github').subscribe(i => {
+    const s = this.gitService.getIssues(this.project).subscribe(i => {
       console.log('gh', i);
       s.unsubscribe();
     });

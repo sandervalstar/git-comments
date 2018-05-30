@@ -1,8 +1,8 @@
-import { Injectable, OnInit } from '@angular/core';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/index';
 import { AuthService } from '../auth/auth.service';
+import { Project } from './project';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +19,8 @@ export class GitService {
     });
   }
 
-  getIssues(owner: string, repo: string): Observable<any> {
-    const url = `${this.baseUrl}/${owner}/${repo}/issues`;
+  getIssues(p: Project): Observable<any> {
+    const url = `${this.baseUrl}/${p.owner}/${p.repo}/issues`;
 
     let headers;
     if (this.accessToken) {
