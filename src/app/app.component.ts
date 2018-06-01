@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { auth } from 'firebase';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'git-comments',
@@ -10,22 +10,14 @@ import { auth } from 'firebase';
 export class AppComponent {
   title = 'app';
 
-  constructor(public afAuth: AngularFireAuth) {
+  constructor(public authService: AuthService) {
   }
 
   login() {
-    this.afAuth.auth.signInWithPopup(new auth.GithubAuthProvider())
-      .then(result => {
-        console.log('value', result);
-      })
-      .catch(e => console.error('error signing in'));
+    this.authService.login();
   }
 
   logout() {
-    this.afAuth.auth.signOut();
-  }
-
-  logUser() {
-    this.afAuth.user.subscribe(u => console.log('user', u))    ;
+    this.authService.logout();
   }
 }
