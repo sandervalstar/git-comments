@@ -3,7 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebase: {
+    apiKey: 'AIzaSyAYQwcOvRhCoqnpjk_64GwtuFANRPEOOqg',
+    authDomain: 'git-comments-dev.firebaseapp.com',
+    databaseURL: 'https://git-comments-dev.firebaseio.com',
+    projectId: 'git-comments-dev',
+    storageBucket: '',
+    messagingSenderId: '969645718138'
+  }
 };
 
 /*
