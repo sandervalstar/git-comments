@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { User } from './user';
-import { auth } from 'firebase';
 import { BehaviorSubject, Observable } from 'rxjs/index';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+
+// This gets rid of firebase developer build warning in console
+import 'firebase/auth';
+let GithubAuthProvider;
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +38,7 @@ export class AuthService {
   }
 
   login() {
-    this.afAuth.auth.signInWithPopup(new auth.GithubAuthProvider())
+    this.afAuth.auth.signInWithPopup(new GithubAuthProvider())
       .then(result => {
         console.log('value', result);
         this.userSubject.next(result.user);
@@ -54,7 +57,7 @@ export class AuthService {
       .catch(e => console.log('error storing access token'));
   }
 
-  private getStoredAccessToken(): Observable<{token: any}> {
-    return this.accessTokensCollection.doc(this.userSubject.value.uid).valueChanges() as Observable<{token: any}>;
+  private getStoredAccessToken(): Observable<{ token: any }> {
+    return this.accessTokensCollection.doc(this.userSubject.value.uid).valueChanges() as Observable<{ token: any }>;
   }
 }
