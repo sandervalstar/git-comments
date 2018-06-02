@@ -33,6 +33,6 @@ export class AppModule {
 
   ngDoBootstrap() {
     const el = createCustomElement(AppComponent, { injector: this.injector });
-    customElements.define('git-comments', el);
+    customElements.define('git-comments', <Function>el);
   }
 }
