@@ -5,8 +5,8 @@ import { BehaviorSubject, Observable } from 'rxjs/index';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 
 // This gets rid of firebase developer build warning in console
+import * as firebase from 'firebase/app';
 import 'firebase/auth';
-let GithubAuthProvider;
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +38,7 @@ export class AuthService {
   }
 
   login() {
-    this.afAuth.auth.signInWithPopup(new GithubAuthProvider())
+    this.afAuth.auth.signInWithPopup(new firebase.auth.GithubAuthProvider())
       .then(result => {
         console.log('value', result);
         this.userSubject.next(result.user);
