@@ -7,9 +7,18 @@
 
 <div *ngIf="authService.user | async as u; else showLogin">
   <h1>Hello {{ u.email }}!</h1>
+  <h2 *ngIf="authService.accessToken | async as token">{{token}}</h2>
   <button (click)="logout()">Logout</button>
 </div>
 <ng-template #showLogin>
   <p>Please login.</p>
   <button (click)="login()">Login with Github</button>
 </ng-template>
+
+<div>
+  <div *ngFor="let i of issues">
+    <div>{{i.title}}</div>
+    <div>{{i.user.login}}</div>
+    <div>{{i.body}}</div>
+  </div>
+</div>
