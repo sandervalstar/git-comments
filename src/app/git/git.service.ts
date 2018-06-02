@@ -3,6 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/index';
 import { AuthService } from '../auth/auth.service';
 import { Project } from './project';
+import { GitUser } from './git-user';
+import { map } from 'rxjs/internal/operators';
+import { Issue } from './issue';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +36,18 @@ export class GitService {
       console.log('doig request without toeken');
     }
 
-    return this.http.get(url, {headers: headers});
+    return this.http.get<any[]>(url, {headers: headers})
+      // .pipe(map(this.convertToDomainModel));
   }
+
+  // convertToDomainModel(issues): Array<Issue> {
+  //   issues.forEach(i => {
+  //     if (i.user) {
+  //       i.user = new GitUser(i.user.id, i.user.login, i.user.avatar_url);
+  //     }
+  //   });
+  //
+  //   return issues;
+  // }
+
 }

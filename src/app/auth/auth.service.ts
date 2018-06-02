@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { User } from './user';
+import { AuthUser } from './auth-user';
 import { BehaviorSubject, Observable } from 'rxjs/index';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
-
 // This gets rid of firebase developer build warning in console
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
+import { map } from 'rxjs/internal/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  public readonly user: Observable<User>;
+  public readonly user: Observable<AuthUser>;
   public readonly accessToken: Observable<string>;
 
-  private userSubject: BehaviorSubject<User>;
+  private userSubject: BehaviorSubject<AuthUser>;
   private accessTokenSubject: BehaviorSubject<string>;
 
   private accessTokensCollection: AngularFirestoreCollection<{ token: string }>;
@@ -29,12 +29,14 @@ export class AuthService {
     this.accessTokenSubject = new BehaviorSubject(null);
     this.accessToken = this.accessTokenSubject.asObservable();
 
-    this.afAuth.user.subscribe(newUser => {
-      this.userSubject.next(newUser);
-      if (newUser) {
-        this.getStoredAccessToken().subscribe(t => this.accessTokenSubject.next(t.token));
-      }
-    });
+    this.afAuth.user
+      .pipe(map(this.convertToDomainModel))
+      .subscribe(newUser => {
+        this.userSubject.next(newUser);
+        if (newUser) {
+          this.getStoredAccessToken().subscribe(t => this.accessTokenSubject.next(t.token));
+        }
+      });
   }
 
   login() {
@@ -59,5 +61,13 @@ export class AuthService {
 
   private getStoredAccessToken(): Observable<{ token: any }> {
     return this.accessTokensCollection.doc(this.userSubject.value.uid).valueChanges() as Observable<{ token: any }>;
+  }
+
+  private convertToDomainModel(user) {
+    if (!user) return user;
+
+    console.log('orig user', user);
+    const p = user.providerData[0];
+    return new AuthUser(user.uid, p.displayName, p.email, p.photoURL);
   }
 }

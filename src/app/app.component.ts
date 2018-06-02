@@ -16,9 +16,21 @@ export class AppComponent implements OnInit {
   issues: Array<Issue>;
 
 
-  constructor(private appConfig: AppConfig, public authService: AuthService, public gitService: GitService) {
+  constructor(private elementRef: ElementRef, private appConfig: AppConfig, public authService: AuthService, public gitService: GitService) {
     this.project = this.appConfig.project;
+    // window.document.body.style.width = '50vw';
+
+    if (window.scrollbars.visible) {
+      elementRef.nativeElement.style.right = '17px';
+    }
+
     console.log('project', this.project);
+
+    authService.user.subscribe(u => {
+      if (u != null) {
+        console.log('user', u);
+      }
+    })
   }
 
   ngOnInit(): void {

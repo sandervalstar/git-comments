@@ -1,21 +1,18 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
+<div class="profile">
+  <div *ngIf="authService.user | async as u; else showLogin">
+    <span>{{ u.displayName }}</span>
+    <img src="{{u.avatarUrl}}" alt="">
+    <!--<h2 *ngIf="authService.accessToken | async as token">{{token}}</h2>-->
+    <button (click)="logout()">Logout</button>
+  </div>
+  <ng-template #showLogin>
+    <p>Please login.</p>
+    <button (click)="login()">Login with Github</button>
+  </ng-template>
 </div>
 
-<div *ngIf="authService.user | async as u; else showLogin">
-  <h1>Hello {{ u.email }}!</h1>
-  <h2 *ngIf="authService.accessToken | async as token">{{token}}</h2>
-  <button (click)="logout()">Logout</button>
-</div>
-<ng-template #showLogin>
-  <p>Please login.</p>
-  <button (click)="login()">Login with Github</button>
-</ng-template>
-
-<div>
+<div class="issues">
   <div *ngFor="let i of issues">
     <div>{{i.title}}</div>
     <div>{{i.user.login}}</div>
