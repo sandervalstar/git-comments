@@ -13,8 +13,7 @@
 </div>
 
 <div class="issues">
-  <div *ngFor="let i of issues">
-    <div>{{i.title}}</div>
+  <div *ngFor="let i of issues" class="issue">
     <div>{{i.user.login}}</div>
     <div>{{i.body}}</div>
   </div>

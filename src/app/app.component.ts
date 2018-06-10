@@ -18,11 +18,12 @@ export class AppComponent implements OnInit {
 
   constructor(private elementRef: ElementRef, private appConfig: AppConfig, public authService: AuthService, public gitService: GitService) {
     this.project = this.appConfig.project;
-    // window.document.body.style.width = '50vw';
 
     if (window.scrollbars.visible) {
       elementRef.nativeElement.style.right = '17px';
     }
+
+    window.document.body.style.paddingRight = '500px';
 
     console.log('project', this.project);
 
