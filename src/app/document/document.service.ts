@@ -8,6 +8,7 @@ export class DocumentService {
 
   private doc: Document;
   private elements: NodeListOf<Element>;
+  private lines: string[];
   private offset = 0;
 
   constructor(private http: HttpClient) {
@@ -18,10 +19,11 @@ export class DocumentService {
     this.doc = doc;
 
     this.elements = this.doc.getElementsByTagName('*');
-
     for (let i = 0; i < this.elements.length; i++) {
       this.elements[i].setAttribute('data-index', `${i}`);
     }
+
+    this.lines = this.doc.firstElementChild.outerHTML.split('\n');
 
     this.doc.body.onclick = e => {
       const lineNr = this.getLineNumber(e.toElement);
@@ -35,10 +37,8 @@ export class DocumentService {
   }
 
   getLineNumber(element: Element): number {
-    const lines = this.doc.firstElementChild.outerHTML.split('\n');
-
-    for (let i = 0; i < lines.length; i++) {
-      const index = lines[i].indexOf(`data-index="${element.getAttribute('data-index')}"`);
+    for (let i = 0; i < this.lines.length; i++) {
+      const index = this.lines[i].indexOf(`data-index="${element.getAttribute('data-index')}"`);
       if (index !== -1) {
         return i + this.offset;
       }

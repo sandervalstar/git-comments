@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
       elementRef.nativeElement.style.right = '17px';
     }
 
-    documentService.setOffset(-66);
+    documentService.setOffset(-59);
     documentService.setDocument(window.document);
     // documentService.setDocument(window.location.toString()+'/index.html');
 
