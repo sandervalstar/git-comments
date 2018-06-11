@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class DocumentService {
 
   private doc: Document;
+  private elements: NodeListOf<Element>;
   private offset = 0;
 
   constructor(private http: HttpClient) {
@@ -16,14 +17,15 @@ export class DocumentService {
   setDocument(doc: Document) {
     this.doc = doc;
 
-    const elements = this.doc.getElementsByTagName("*");
+    this.elements = this.doc.getElementsByTagName('*');
 
-    for (let i = 0; i < elements.length; i++) {
-      elements[i].setAttribute('data-index', `${i}`);
+    for (let i = 0; i < this.elements.length; i++) {
+      this.elements[i].setAttribute('data-index', `${i}`);
     }
 
     this.doc.body.onclick = e => {
-      console.log('iframe clicked', e.target, this.getLineNumber(e.toElement));
+      const lineNr = this.getLineNumber(e.toElement);
+      console.log('iframe clicked', e.target, lineNr, this.getLineNumberEnd(e.toElement, lineNr));
 
     };
   }
@@ -43,4 +45,9 @@ export class DocumentService {
     }
     return -1;
   }
+
+  getLineNumberEnd(element: Element, lineNumberStart: number): number {
+    return lineNumberStart + element.outerHTML.split('\n').length - 1;
+  }
+
 }
