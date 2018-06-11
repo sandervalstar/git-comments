@@ -4,6 +4,7 @@ import { Project } from './git/project';
 import { AppConfig } from './config/app-config';
 import { GitService } from './git/git.service';
 import { Issue } from './git/issue';
+import { DocumentService } from './document/document.service';
 
 @Component({
   selector: 'git-comments',
@@ -16,14 +17,18 @@ export class AppComponent implements OnInit {
   issues: Array<Issue>;
 
 
-  constructor(private elementRef: ElementRef, private appConfig: AppConfig, public authService: AuthService, public gitService: GitService) {
+  constructor(private elementRef: ElementRef, private appConfig: AppConfig, public authService: AuthService,
+              public gitService: GitService, public documentService: DocumentService) {
     this.project = this.appConfig.project;
 
     if (window.scrollbars.visible) {
       elementRef.nativeElement.style.right = '17px';
     }
 
-    window.document.body.style.paddingRight = '500px';
+    documentService.setOffset(3);
+    documentService.setDocument(window.location.toString()+'/index.html');
+
+    // window.document.body.style.paddingRight = '500px';
 
     console.log('project', this.project);
 

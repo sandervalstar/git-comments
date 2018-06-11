@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { AuthService } from './auth/auth.service';
 import { GitService } from './git/git.service';
+import { DocumentService } from './document/document.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { GitService } from './git/git.service';
     AngularFireAuthModule,
     AngularFirestoreModule,
   ],
-  providers: [AuthService, GitService],
+  providers: [AuthService, GitService, DocumentService],
   bootstrap: [],
   entryComponents: [AppComponent]
 })
