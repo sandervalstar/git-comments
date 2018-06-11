@@ -25,8 +25,9 @@ export class AppComponent implements OnInit {
       elementRef.nativeElement.style.right = '17px';
     }
 
-    documentService.setOffset(3);
-    documentService.setDocument(window.location.toString()+'/index.html');
+    documentService.setOffset(-66);
+    documentService.setDocument(window.document);
+    // documentService.setDocument(window.location.toString()+'/index.html');
 
     // window.document.body.style.paddingRight = '500px';
 

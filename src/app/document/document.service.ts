@@ -1,63 +1,45 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { forEach } from '@angular/router/src/utils/collection';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentService {
 
-  private document: Document;
+  private doc: Document;
   private offset = 0;
 
   constructor(private http: HttpClient) {
-    this.document = window.document;
     console.log('created document service', document.childElementCount, document.firstElementChild);
+  }
 
-    this.document.body.onclick = e => {
+  setDocument(doc: Document) {
+    this.doc = doc;
+
+    const elements = this.doc.getElementsByTagName("*");
+
+    for (let i = 0; i < elements.length; i++) {
+      elements[i].setAttribute('data-index', `${i}`);
+    }
+
+    this.doc.body.onclick = e => {
       console.log('iframe clicked', e.target, this.getLineNumber(e.toElement));
 
-    }
+    };
   }
 
   setOffset(offset: number) {
     this.offset = offset;
   }
 
-  setDocument(url: string) {
-    let headers = new HttpHeaders();
-    headers = headers.append('Accept', 'text/html');
-
-    this.http.get(url, {headers: headers, responseType: 'text'}).subscribe(r => {
-      // console.log('r', r);
-      let doc = document.implementation.createHTMLDocument('blaat');
-
-      doc.firstElementChild.innerHTML = r;
-
-      this.document = doc;
-    });
-
-  }
-
-  doSomething() {
-
-  }
-
   getLineNumber(element: Element): number {
-    console.log('ss', element.outerHTML);
-    const lines = this.document.firstElementChild.outerHTML.split('\n');
-    for (var i = 0; i < lines.length; i++) {
-      const matches = [];
-      if (lines[i].indexOf(element.outerHTML.split('\n')[0]) > -1) {
-        console.log('asdf', element.outerHTML, 'line', lines[i])
-        matches.push(lines[i]);
-      }
+    const lines = this.doc.firstElementChild.outerHTML.split('\n');
 
-      matches.forEach(m => {
-        console.log('match', m, '\nelement', element.parentElement.outerHTML);
-      })
-      // var index = lines[i].indexOf("data-index=\"" + id + "\"");
-      // if (index !== -1) return i;// + headLength + 5;
+    for (let i = 0; i < lines.length; i++) {
+      const index = lines[i].indexOf(`data-index="${element.getAttribute('data-index')}"`);
+      if (index !== -1) {
+        return i + this.offset;
+      }
     }
     return -1;
   }
